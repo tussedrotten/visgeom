@@ -1,0 +1,5 @@
+numpy
+matplotlib
+pyqt5
+scipy
+setuptools
