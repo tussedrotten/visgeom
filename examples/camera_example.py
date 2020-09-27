@@ -22,10 +22,12 @@ R_w_c = np.array([[0, 0, 1],
                   [-1, 0, 0],
                   [0, -1, 0]])
 t_w_c = np.zeros((3, 1))
+pose_w_c = (R_w_c, t_w_c)
 
 # Plot camera.
-vg.plot_pose(ax, (R_w_c, t_w_c), scale=0.4, text='$\\mathcal{F}_c$')
-vg.plot_camera_image_plane(ax, K, (R_w_c, t_w_c), scale=1)
+vg.plot_pose(ax, pose_w_c, scale=0.4, text='$\\mathcal{F}_c$')
+vg.plot_camera_frustum(ax, K, pose_w_c, alpha=0.1)
+vg.plot_camera_image_plane(ax, K, pose_w_c, scale=1)
 
 # Plot a box in 3D.
 R_w_b = Rotation.from_rotvec([0, 0, np.pi / 6]).as_matrix()

@@ -27,6 +27,7 @@ def plot_as_box(ax, points, **kwargs):
     """Plots a 3x8 matrix as a connected box, where each column is a corner.
 
     Keyword Arguments
+        * *alpha* -- Alpha value (transparency), default 1
         * *edgecolor* -- Color of box edges, default 'k''
         * *pointcolor* -- Color of box corner points, default 'k'
 
@@ -36,15 +37,16 @@ def plot_as_box(ax, points, **kwargs):
 
     :return: List of artists.
     """
+    alpha = kwargs.get('alpha', 1)
     edgecolor = kwargs.get('edgecolor', 'k')
     pointcolor = kwargs.get('pointcolor', 'k')
 
-    artists = [ax.plot(points[0, :], points[1, :], points[2, :], pointcolor + '.')]
+    artists = [ax.plot(points[0, :], points[1, :], points[2, :], pointcolor + '.', alpha=alpha)]
 
     for start in (0, 4):
         inds = np.concatenate((np.arange(start, start + 4), [start]))
-        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':'))
+        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))
 
     for side in range(0, 4):
         inds = (side, side + 4)
-        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':'))
+        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))

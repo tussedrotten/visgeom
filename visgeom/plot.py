@@ -27,6 +27,7 @@ def plot_pose(ax, pose, **kwargs):
     """Plot the pose (R, t) in the global frame.
 
     Keyword Arguments
+        * *alpha* -- Alpha value (transparency), default 1
         * *axis_colors* -- List of colors for each axis, default ('r', 'g', 'b')
         * *scale* -- Scale factor, default 1.0
         * *text* -- Text description plotted at pose origin, default ''
@@ -39,6 +40,7 @@ def plot_pose(ax, pose, **kwargs):
     :return: List of artists.
     """
     R, t = pose
+    alpha = kwargs.get('alpha', 1)
     axis_colors = kwargs.get('axis_colors', ('r', 'g', 'b'))
     scale = kwargs.get('scale', 1)
     text = kwargs.get('text', '')
@@ -48,7 +50,7 @@ def plot_pose(ax, pose, **kwargs):
     # If R is a valid rotation matrix, the columns are the local orthonormal basis vectors in the global frame.
     for i in range(0, 3):
         axis_line = np.column_stack((t, t + R[:, i, np.newaxis] * scale))
-        artists.append(ax.plot(axis_line[0, :], axis_line[1, :], axis_line[2, :], axis_colors[i] + '-'))
+        artists.append(ax.plot(axis_line[0, :], axis_line[1, :], axis_line[2, :], axis_colors[i] + '-', alpha=alpha))
 
     if text:
         artists.append(ax.text(t[0, 0], t[1, 0], t[2, 0], text))
@@ -60,6 +62,7 @@ def plot_camera_frustum(ax, K, pose_w_c, **kwargs):
     """Plot a camera frustum in the global "world" frame.
 
     Keyword Arguments
+        * *alpha* -- Alpha value (transparency), default 1
         * *edgecolor* -- Frustum color, default 'k'
         * *img_size* -- Size of image in pixels, default (2*K[0, 2], 2*K[1, 2])
         * *scale* -- Scale factor, default 1.0
@@ -74,6 +77,7 @@ def plot_camera_frustum(ax, K, pose_w_c, **kwargs):
     :return: List of artists.
     """
     R_w_c, t_w_c = pose_w_c
+    alpha = kwargs.get('alpha', 1)
     edgecolor = kwargs.get('edgecolor', 'k')
     img_size = kwargs.get('img_size', (2 * K[0, 2], 2 * K[1, 2]))
     scale = kwargs.get('scale', 1)
@@ -96,7 +100,7 @@ def plot_camera_frustum(ax, K, pose_w_c, **kwargs):
 
     # Plot outline.
     inds = (0, 4, 3, 0, 1, 4, 0, 3, 2, 0, 2, 1, 0)
-    artists = [ax.plot(frustum_x_w[0, inds], frustum_x_w[1, inds], frustum_x_w[2, inds], edgecolor + '-')]
+    artists = [ax.plot(frustum_x_w[0, inds], frustum_x_w[1, inds], frustum_x_w[2, inds], edgecolor + '-', alpha=alpha)]
 
     if text:
         artists.append(ax.text(t_w_c[0, 0], t_w_c[1, 0], t_w_c[2, 0], text))
