@@ -1,3 +1,4 @@
+import visgeom.utils
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import numpy as np
 
@@ -150,3 +151,31 @@ def plot_camera_image_plane(ax, K, pose_w_c, **kwargs):
     artists = [ax.add_collection(poly)]
 
     return artists
+
+
+def plot_covariance_ellipsoid(ax, mean, covariance, chi2_val=11.345, **kwargs):
+    """Plot a 3D covariance ellipsoid.
+
+    Keyword Arguments
+        * *alpha* -- Alpha value (transparency), default 0.2
+        * *color* -- Ellipsoid surface color, default 'r'
+        * *n* -- Granularity of the ellipsoid, default 20
+
+    :param ax: Current axes
+    :param mean: The mean, a 3D column vector.
+    :param covariance: The covariance, a 3x3 matrix.
+    :param chi2_val: The chi-square distribution value for the ellipsoid scale. Default 11.345 corresponds to 99%
+    :param kwargs: See above
+
+    :return: List of artists.
+    """
+    alpha = kwargs.get('alpha', 0.2)
+    color = kwargs.get('color', 'r')
+    n = kwargs.get('n', 20)
+
+    u, s, _ = np.linalg.svd(covariance)
+    scale = np.sqrt(chi2_val * s)
+
+    x, y, z = visgeom.utils.generate_ellipsoid(n, pose=(u, mean), scale=scale)
+
+    return [ax.plot_surface(x, y, z, alpha=alpha, color=color)]
