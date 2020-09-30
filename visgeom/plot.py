@@ -51,10 +51,10 @@ def plot_pose(ax, pose, **kwargs):
     # If R is a valid rotation matrix, the columns are the local orthonormal basis vectors in the global frame.
     for i in range(0, 3):
         axis_line = np.column_stack((t, t + R[:, i, np.newaxis] * scale))
-        artists.append(ax.plot(axis_line[0, :], axis_line[1, :], axis_line[2, :], axis_colors[i] + '-', alpha=alpha))
+        artists.extend(ax.plot(axis_line[0, :], axis_line[1, :], axis_line[2, :], axis_colors[i] + '-', alpha=alpha))
 
     if text:
-        artists.append(ax.text(t[0, 0], t[1, 0], t[2, 0], text))
+        artists.extend([ax.text(t[0, 0], t[1, 0], t[2, 0], text)])
 
     return artists
 
@@ -101,10 +101,10 @@ def plot_camera_frustum(ax, K, pose_w_c, **kwargs):
 
     # Plot outline.
     inds = (0, 4, 3, 0, 1, 4, 0, 3, 2, 0, 2, 1, 0)
-    artists = [ax.plot(frustum_x_w[0, inds], frustum_x_w[1, inds], frustum_x_w[2, inds], edgecolor + '-', alpha=alpha)]
+    artists = ax.plot(frustum_x_w[0, inds], frustum_x_w[1, inds], frustum_x_w[2, inds], edgecolor + '-', alpha=alpha)
 
     if text:
-        artists.append(ax.text(t_w_c[0, 0], t_w_c[1, 0], t_w_c[2, 0], text))
+        artists.extend([ax.text(t_w_c[0, 0], t_w_c[1, 0], t_w_c[2, 0], text)])
 
     return artists
 

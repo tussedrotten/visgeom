@@ -70,12 +70,14 @@ def plot_as_box(ax, points, **kwargs):
     edgecolor = kwargs.get('edgecolor', 'k')
     pointcolor = kwargs.get('pointcolor', 'k')
 
-    artists = [ax.plot(points[0, :], points[1, :], points[2, :], pointcolor + '.', alpha=alpha)]
+    artists = ax.plot(points[0, :], points[1, :], points[2, :], pointcolor + '.', alpha=alpha)
 
     for start in (0, 4):
         inds = np.concatenate((np.arange(start, start + 4), [start]))
-        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))
+        artists.extend(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))
 
     for side in range(0, 4):
         inds = (side, side + 4)
-        artists.append(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))
+        artists.extend(ax.plot(points[0, inds], points[1, inds], points[2, inds], edgecolor + ':', alpha=alpha))
+
+    return artists
