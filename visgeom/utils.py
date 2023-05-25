@@ -35,7 +35,7 @@ def generate_box(**kwargs):
 
     Keyword Arguments
         * *pose* -- Pose (R, t) of the box in the global frame, where R is a 3x3 rotation matrix and t is a 3D column vector, default (np.identity(3), np.zeros((3, 1)))
-        * *scale* -- Scale factor, default 1.0
+        * *scale* -- Scale factor, default 1.0, or 3D vector with scale factors along each dimension
 
     :param kwargs: See above
 
@@ -43,12 +43,15 @@ def generate_box(**kwargs):
     """
     pose = kwargs.get('pose', (np.identity(3), np.zeros((3, 1))))
     scale = kwargs.get('scale', 1)
+    if np.isscalar(scale):
+        scale = np.repeat(scale, 3)
+
     box_points = np.array([[-1, 1, 1, -1, -1, 1, 1, -1],
                            [-1, -1, 1, 1, -1, -1, 1, 1],
                            [-1, -1, -1, -1, 1, 1, 1, 1]])
 
     R, t = pose
-    S = scale * np.identity(3)
+    S = np.diag(scale)
     return R @ S @ box_points + t
 
 
