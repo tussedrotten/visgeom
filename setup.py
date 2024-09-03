@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='visgeom',
-    version='0.2.0',
+    version='0.2.1',
     description='A simple visualisation library for 3D poses and cameras in python',
     url='https://github.com/tussedrotten/visgeom',
     author='Trym Vegard Haavardsholm',
