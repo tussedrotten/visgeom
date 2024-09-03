@@ -36,9 +36,9 @@ points_w = vg.utils.generate_box(pose=(R_w_b, t_w_b), scale=0.6)
 vg.utils.plot_as_box(ax, points_w)
 
 # Project the box onto the image plane.
-points_c = R_w_c.T @ points_w + (R_w_c.T @ t_w_c)
+points_c = R_w_c.T @ points_w - (R_w_c.T @ t_w_c)
 xn = points_c / points_c[2, :]
-xn_w = R_w_c @ xn - t_w_c
+xn_w = R_w_c @ xn + t_w_c
 vg.utils.plot_as_box(ax, xn_w)
 
 # Show figure.
