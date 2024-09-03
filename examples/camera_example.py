@@ -18,10 +18,10 @@ ax.set_zlabel('z')
 K = np.array([[50, 0, 40],
               [0, 50, 30],
               [0, 0, 1]])
-R_w_c = np.array([[0, 0, 1],
-                  [-1, 0, 0],
+R_w_c = np.array([[-1, 0, 0],
+                  [0, 0, -1],
                   [0, -1, 0]])
-t_w_c = np.zeros((3, 1))
+t_w_c = np.array([[3, 3, 0]]).T
 pose_w_c = (R_w_c, t_w_c)
 
 # Plot camera.
